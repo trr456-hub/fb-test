@@ -64,6 +64,7 @@ function App() {
     };
     getData();
   }, []);
+  console.log(obj.map((e) => e.data()));
 
   return (
     <div>
@@ -74,7 +75,6 @@ function App() {
       <button onClick={onClick} type="submit">
         gogo
       </button>
-      <button>getData</button>
 
       {obj.map((city) => (
         <div key={city.id}>
