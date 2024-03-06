@@ -1,29 +1,51 @@
-import { doc, setDoc, addDoc, collection } from "firebase/firestore";
-import { useState } from "react";
+import { async } from "@firebase/util";
+import { doc, setDoc, addDoc, collection, getDocs } from "firebase/firestore";
+import { useEffect, useState } from "react";
 import { dbService } from "./firebase";
 
 function App() {
-  const [input, setInput] = useState(0);
-  const onChange = (e) => {
+  const [name, setName] = useState("");
+  const [country, setCountry] = useState("");
+  const [obj, setObj] = useState("");
+  const nameChange = (e) => {
     const {
       target: { value },
     } = e;
-    setInput(value);
+    setName(value);
   };
-  const city = doc(dbService, "cities", "BJ");
-  const onClick = async () => {
-    await addDoc(collection(dbService, "cities"), {
-      name: "Seoul",
-      country: "Korea",
-    });
+  const countryChange = (e) => {
+    const {
+      target: { value },
+    } = e;
+    setCountry(value);
   };
 
+  const onClick = async () => {
+    await addDoc(collection(dbService, "cities"), {
+      name: name,
+      country: country,
+    });
+  };
+  useEffect(() => {
+    const getData = async () => {
+      const query = await getDocs(collection(dbService, "cities"));
+      query.forEach((e) => setObj(e.data()));
+    };
+    getData();
+    console.log(obj);
+  }, []);
+  console.log(obj.name);
   return (
     <div>
-      <input onChange={onChange} type="text" />
+      <input onChange={nameChange} type="text" />
+      <p />
+      <input onChange={countryChange} type="text" />
+      <p />
       <button onClick={onClick} type="submit">
         gogo
       </button>
+
+      <div></div>
     </div>
   );
 }
