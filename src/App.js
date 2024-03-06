@@ -1,4 +1,4 @@
-import { doc, setDoc } from "firebase/firestore";
+import { doc, setDoc, addDoc, collection } from "firebase/firestore";
 import { useState } from "react";
 import { dbService } from "./firebase";
 
@@ -11,9 +11,12 @@ function App() {
     setInput(value);
   };
   const city = doc(dbService, "cities", "BJ");
-  const onClick = () => {};
-
-  console.log(city);
+  const onClick = async () => {
+    await addDoc(collection(dbService, "cities"), {
+      name: "Seoul",
+      country: "Korea",
+    });
+  };
 
   return (
     <div>
