@@ -1,4 +1,6 @@
+import { doc, setDoc } from "firebase/firestore";
 import { useState } from "react";
+import { dbService } from "./firebase";
 
 function App() {
   const [input, setInput] = useState(0);
@@ -8,9 +10,11 @@ function App() {
     } = e;
     setInput(value);
   };
-  const onClick = () => {
-    console.log(input);
-  };
+  const city = doc(dbService, "cities", "BJ");
+  const onClick = () => {};
+
+  console.log(city);
+
   return (
     <div>
       <input onChange={onChange} type="text" />
